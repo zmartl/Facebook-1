@@ -1,0 +1,85 @@
+<html>
+<head>
+  <title>Modul 122</title>
+  <!-- Material Design fonts -->
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
+
+  <!-- Nprogress -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.js"></script>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!-- Bootstrap Material Design -->
+  <link rel="stylesheet" type="text/css" href="dist/css/bootstrap-material-design.css">
+  <link rel="stylesheet" type="text/css" href="dist/css/ripples.min.css">
+  </head>
+<body>
+<script>
+  NProgress.start() 
+
+  // Access Token
+  // Ohne diesen Code kann die App nicht mit der API kommunizieren. Muss jeden Tag neu generiert werden.
+  var accessToken = "EAACEdEose0cBANgEQO1NDrH81n35EMZCbm1yqLgthG9InKQSaoJZBz0ZBDZCcNdB2E25ZCVgXweRV4DZAwuF9fNe8J49R0UJ7CW4z9WGclktZBTyIM29TI3bD3lub4wbwthZCZALZCiM0eGKK9czUptQVC1OprJhKN4xpUE7oy0OwfLmA4FljZCS1TDyrSKuZBMR5mAZD";
+  // Init Methode
+  // Definiert die benoetigten Variabeln
+  window.fbAsyncInit = function() {
+  FB.init({
+      appId      : '210057022836440',
+      xfbml      : true,
+      version    : 'v2.9'
+      });
+    
+      FB.AppEvents.logPageView();
+
+      /** API aufruf
+      // Params: created_time, message, story, description, picture, link, locale, accesstoken
+      // Liest alle Facebook-Posts aus von der API Schnittstelle
+      */
+      FB.api("/me/posts?fields=created_time,message,story,description,picture,link&locale=de&access_token=" + accessToken,
+          function (response) {
+              document.getElementById('header').innerHTML += '<h1>Deine Facebook-Posts</h1>';  
+              _.forEach(response.data, function(value) {
+                // Ueberpfuefen ob gewisse Werte leer sind
+                if(value.message == null){ 
+                  value.message = "";
+                }  
+                if(value.story == null){ 
+                  value.story = "";
+                } 
+                if(value.description == null){ 
+                  value.description = "";
+                }      
+
+                // Schreibt das Resultat in die Webseite mit JS
+                document.getElementById('log').innerHTML += '<div class="jumbotron"><small>' + moment(value.created_time).format('DD.MM.YYYY - HH:mm') + '</small><h3><a href="' + value.link + '" target="_blank">' + value.story + '</a></h3><p>' + value.message + '</p><p>' + value.description + '</p><img src="' + value.picture + '"/></div>';               
+                // Loading-Bar weiter
+                NProgress.inc()
+              });
+              // Loading-Bar fertig
+              NProgress.done();
+          }
+        );
+    };
+
+    (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "http://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+    
+
+    
+</script>
+<div class="container">
+<div id="header"></div>
+<div id="log"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+</body>
