@@ -25,7 +25,7 @@
 
   // Access Token
   // Ohne diesen Code kann die App nicht mit der API kommunizieren. Muss jeden Tag neu generiert werden.
-  var accessToken = "EAACEdEose0cBAJ9pzOFBVF8X70jKptRFOPkRoQovgZBjsX9TYJZAyQdGosTH7ngFqa2mulis0pcmthipAjMCnmZCKo2VNjhtLZANZCnEpdA0DEPsqS0viV0XiurVBFoGo5B3Bp4hMmRXzhaZA1jj9wiNlbgJuxiT14LcZCEXzwuGm5hPSP606yH2GgN72vLEFsZD";
+  var accessToken = "EAACEdEose0cBANvZB1gbIzJuSXk9ZBFrrjjwrhm2zZC16TUYRQPrLFVBfSmKXHCc21iTfORETx1ZCGBkE8R9zo0Mc1PbZCBQdWnRGhZBMAqNgBc9iXF0EnMVy9GkNAnI2i1kJhy9zQns8GrDyNlrvqgT2V2kV3h7sBqACKqODHrKwG0By1SdmYzzYnxFHUYegZD";
   // Init Methode
   // Definiert die benoetigten Variabeln
   window.fbAsyncInit = function() {
@@ -82,17 +82,22 @@
     );
   };
 
-
+  // Facebook-Posts veroeffentlichen
    function fb_publish() {
+     // API Aufruf mit access_token
      FB.api("/me/feed?access_token=" + accessToken ,
     "POST",
     {
+      // liest die mitteilung aus dem textfeld
         "message": document.getElementById('inputBox').value
     },
     function (response) {
+      //Prueft ob kein Fehler vorhanden ist
       if (response && !response.error) {
-       swal("Juhu!", "Dein Betrag wurde erfolgreich ver&ouml;ffentlicht!", "success")
+        // Meldung wenn erfolgreich
+       swal("Juhu!", "Dein Betrag wurde erfolgreich veröffentlicht!", "success")
       } else {
+        // Meldung wenn fehlerhaft
        swal("Ups!", "Es ist ein Fehler aufgetreten!", "error")
       }
     }
